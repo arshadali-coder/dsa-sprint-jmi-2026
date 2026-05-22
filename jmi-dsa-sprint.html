@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Council @ JMI — Summer DSA Sprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --accent: #00e5a0;
+    --accent2: #5b8dff;
+    --accent3: #ff6b6b;
+    --accent4: #ffd166;
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex; gap: 0.25rem;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-family: var(--mono);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .nav-links a:hover { color: var(--accent); background: rgba(0,229,160,0.07); }
+
+  /* HERO */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 100px;
+    padding: 0.3rem 0.9rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 580px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .stat-val {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-val.blue { color: var(--accent2); }
+  .stat-val.red { color: var(--accent3); }
+  .stat-val.yellow { color: var(--accent4); }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 4rem 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 18px; height: 1px;
+    background: var(--muted);
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  h2 span { color: var(--accent); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 2rem; }
+
+  /* PHILOSOPHY GRID */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .pillar {
+    background: var(--surface);
+    padding: 1.5rem;
+    position: relative;
+  }
+  .pillar-icon {
+    font-size: 1.4rem; margin-bottom: 0.7rem;
+    display: block;
+  }
+  .pillar h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .pillar p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .pillar-accent { border-top: 2px solid var(--accent); }
+  .pillar-accent2 { border-top: 2px solid var(--accent2); }
+  .pillar-accent3 { border-top: 2px solid var(--accent3); }
+  .pillar-accent4 { border-top: 2px solid var(--accent4); }
+
+  /* WEEK ROADMAP */
+  .roadmap {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .week-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .week-row:last-child { border-bottom: none; }
+  .week-row:hover { background: rgba(255,255,255,0.02); }
+  .week-num {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 1.2rem 0.5rem;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .week-num .wn {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .week-num .wd {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .week-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin-top: 0.3rem;
+    letter-spacing: 0.05em;
+  }
+  .badge-found { background: rgba(0,229,160,0.15); color: var(--accent); }
+  .badge-ps { background: rgba(91,141,255,0.15); color: var(--accent2); }
+  .badge-dsa { background: rgba(255,107,107,0.15); color: var(--accent3); }
+  .badge-adv { background: rgba(255,209,102,0.15); color: var(--accent4); }
+
+  .week-content {
+    padding: 1.2rem 1.4rem;
+    border-right: 1px solid var(--border);
+  }
+  .week-content h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .week-topics {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+  }
+  .topic-chip {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    padding: 0.2rem 0.55rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+  }
+  .week-targets {
+    padding: 1.2rem 1.4rem;
+  }
+  .week-targets h4 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+    font-family: var(--mono);
+  }
+  .target-line {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+  }
+  .target-line .tl-num {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.9rem;
+    min-width: 28px;
+  }
+  .tl-green { color: var(--accent); }
+  .tl-blue { color: var(--accent2); }
+  .tl-red { color: var(--accent3); }
+  .tl-muted { color: var(--muted); font-size: 0.72rem; }
+
+  /* DIFF MIX */
+  .diff-bar-wrap {
+    margin-top: 0.5rem;
+  }
+  .diff-bar {
+    display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 0.3rem;
+  }
+  .d-easy { background: var(--accent); }
+  .d-med { background: var(--accent2); }
+  .d-hard { background: var(--accent3); }
+  .diff-legend {
+    display: flex; gap: 0.8rem; font-size: 0.65rem; font-family: var(--mono); color: var(--muted);
+  }
+  .dl { display: flex; align-items: center; gap: 0.25rem; }
+  .dl::before { content:''; width:7px; height:7px; border-radius:2px; flex-shrink:0; }
+  .dl.e::before { background: var(--accent); }
+  .dl.m::before { background: var(--accent2); }
+  .dl.h::before { background: var(--accent3); }
+
+  /* OPERATIONAL MODEL */
+  .ops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .ops-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem;
+  }
+  .ops-card h3 {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    display: flex; align-items: center; gap: 0.55rem;
+  }
+  .ops-card ul {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .ops-card li {
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.55;
+  }
+  .ops-card li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+  }
+
+  /* ONBOARDING */
+  .onboard-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+  .os {
+    background: var(--surface);
+    padding: 1.4rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .os-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .os h4 { font-size: 0.88rem; font-weight: 700; }
+  .os p { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+
+  /* CRITERIA TABLE */
+  .criteria-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  .criteria-table th {
+    text-align: left;
+    padding: 0.7rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .criteria-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .criteria-table tr:last-child td { border-bottom: none; }
+  .criteria-table tr:hover td { background: rgba(255,255,255,0.015); }
+  .criteria-table .label { color: var(--text); font-weight: 600; font-size: 0.82rem; }
+  .criteria-table .desc { color: var(--muted); line-height: 1.55; }
+  .pass { color: var(--accent); font-family: var(--mono); font-size: 0.72rem; }
+  .fail { color: var(--accent3); font-family: var(--mono); font-size: 0.72rem; }
+
+  /* LEADERBOARD MODEL */
+  .lb-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .lb-header {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .lb-header h3 { font-size: 0.9rem; font-weight: 700; }
+  .lb-header span { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 36px 1fr repeat(3, 70px) 90px;
+    align-items: center;
+    padding: 0.7rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-rank { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+  .lb-rank.gold { color: var(--accent4); font-weight: 700; }
+  .lb-rank.silver { color: #aaa; font-weight: 700; }
+  .lb-rank.bronze { color: #c87941; font-weight: 700; }
+  .lb-name { font-weight: 600; }
+  .lb-val { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-align: right; }
+  .lb-score { font-family: var(--mono); font-weight: 700; color: var(--accent); text-align: right; }
+  .lb-streak { display: flex; align-items: center; gap: 0.2rem; font-family: var(--mono); font-size: 0.72rem; color: var(--accent4); justify-content: flex-end; }
+  .lb-cols { display: grid; grid-template-columns: 36px 1fr repeat(3, 70px) 90px; gap: 0.5rem; padding: 0.4rem 1.4rem; background: rgba(0,0,0,0.2); }
+
+  /* MENTOR PODS */
+  .pods {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;
+  }
+  .pod {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .pod::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .pod.p1::before { background: var(--accent); }
+  .pod.p2::before { background: var(--accent2); }
+  .pod.p3::before { background: var(--accent3); }
+  .pod h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .pod .pod-meta {
+    font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-bottom: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+  .pod ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+  .pod li { font-size: 0.78rem; color: var(--muted); padding-left: 1rem; position: relative; }
+  .pod li::before { content: '·'; position: absolute; left: 0.2rem; color: var(--accent); }
+
+  /* CERT */
+  .cert-tiers {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+  }
+  .cert {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.3rem;
+    text-align: center;
+  }
+  .cert-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+  .cert h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .cert p { font-size: 0.75rem; color: var(--muted); line-height: 1.55; }
+  .cert .req {
+    margin-top: 0.9rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 4px;
+    padding: 0.35rem 0.6rem;
+  }
+
+  /* WEEKLY RHYTHM */
+  .rhythm {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .day-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+  }
+  .day-cell .dc-name {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+  .day-cell .dc-activity {
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .dc-green { color: var(--accent); }
+  .dc-blue { color: var(--accent2); }
+  .dc-yellow { color: var(--accent4); }
+  .dc-red { color: var(--accent3); }
+  .dc-off { color: var(--muted); font-weight: 400; font-style: italic; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .rhythm { grid-template-columns: repeat(4, 1fr); }
+    .week-row { grid-template-columns: 60px 1fr; }
+    .week-targets { display: none; }
+    .lb-row { grid-template-columns: 36px 1fr 90px; }
+    .lb-row .lb-val { display: none; }
+    .lb-cols { grid-template-columns: 36px 1fr 90px; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">CC @ JMI / DSA SPRINT '25</div>
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#ops">Operations</a>
+    <a href="#onboarding">Onboarding</a>
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#certs">Certs</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">SUMMER 2025 · PEER-LED · ACCOUNTABILITY SPRINT</div>
+  <h1>Coding Council<br><em>DSA Sprint</em> @ JMI</h1>
+  <p class="hero-sub">A structured, target-based self-study program built for beginners — not a lecture course, but a bootcamp-style accountability sprint with curated problems, mentor pods, and weekly checkpoints.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-val">8</span><span class="stat-label">Week Sprint</span></div>
+    <div class="stat"><span class="stat-val blue">~175</span><span class="stat-label">Total Problems</span></div>
+    <div class="stat"><span class="stat-val">20</span><span class="stat-label">Hrs / Week</span></div>
+    <div class="stat"><span class="stat-val red">22</span><span class="stat-label">Avg Qs / Week</span></div>
+    <div class="stat"><span class="stat-val yellow">Single Track</span><span class="stat-label">Program Model</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PHILOSOPHY -->
+<section id="philosophy">
+  <div class="section-tag">01 / Program DNA</div>
+  <h2>What this is — and<br><span>what it is not</span></h2>
+  <div class="pillars">
+    <div class="pillar pillar-accent">
+      <span class="pillar-icon">🎯</span>
+      <h3>Target-Based Self-Study</h3>
+      <p>Weekly problem targets, not lecture hours. Participants own their pace. Council provides the map and checkpoints.</p>
+    </div>
+    <div class="pillar pillar-accent2">
+      <span class="pillar-icon">🤝</span>
+      <h3>Accountability Over Teaching</h3>
+      <p>Not a university course. No heavy theory. Concepts are tools for solving problems — taught when needed, not upfront.</p>
+    </div>
+    <div class="pillar pillar-accent3">
+      <span class="pillar-icon">🔰</span>
+      <h3>Beginner-Optimized</h3>
+      <p>Single track, tuned for newcomers. Advanced students may mentor or fast-track, but program outcomes are measured at the beginner baseline.</p>
+    </div>
+    <div class="pillar pillar-accent4">
+      <span class="pillar-icon">⚡</span>
+      <h3>Serious Commitment Model</h3>
+      <p>4 hrs/day × 5 days = 20 hrs/week. Participants who sign up understand this is a sprint, not a stroll.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-tag">02 / Curriculum</div>
+  <h2>8-Week <span>Roadmap</span></h2>
+  <div class="roadmap">
+    <!-- Header -->
+    <div class="week-row" style="background:rgba(0,0,0,0.3);">
+      <div class="week-num" style="border-right:1px solid var(--border);">
+        <span class="wn" style="font-size:0.6rem;color:var(--muted);">WEEK</span>
+      </div>
+      <div class="week-content">
+        <div style="font-family:var(--mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Topics &amp; Concepts</div>
+      </div>
+      <div class="week-targets">
+        <div style="font-family:var(--mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Targets &amp; Difficulty Mix</div>
+      </div>
+    </div>
+
+    <!-- Week 1 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">01</span>
+        <span class="week-badge badge-found">FOUND.</span>
+      </div>
+      <div class="week-content">
+        <h4>Coding Fundamentals</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Variables & Types</span>
+          <span class="topic-chip">Conditionals</span>
+          <span class="topic-chip">Loops</span>
+          <span class="topic-chip">Functions</span>
+          <span class="topic-chip">Arrays</span>
+          <span class="topic-chip">Strings</span>
+          <span class="topic-chip">Debugging</span>
+          <span class="topic-chip">I/O Basics</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">15</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">20</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:85%"></div><div class="d-med" style="width:15%"></div></div>
+          <div class="diff-legend"><span class="dl e">85% Easy</span><span class="dl m">15% Med</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 2 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">02</span>
+        <span class="week-badge badge-ps">P.SOLVE</span>
+      </div>
+      <div class="week-content">
+        <h4>Problem-Solving Mindset + Complexity</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Dry Runs</span>
+          <span class="topic-chip">Pseudocode</span>
+          <span class="topic-chip">Brute Force</span>
+          <span class="topic-chip">Edge Cases</span>
+          <span class="topic-chip">Big-O Intuition</span>
+          <span class="topic-chip">Linear Search</span>
+          <span class="topic-chip">Binary Search Intro</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">18</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">22</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:80%"></div><div class="d-med" style="width:20%"></div></div>
+          <div class="diff-legend"><span class="dl e">80% Easy</span><span class="dl m">20% Med</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 3 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">03</span>
+        <span class="week-badge badge-dsa">DSA</span>
+      </div>
+      <div class="week-content">
+        <h4>Sorting + Arrays Deep Dive</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Bubble / Selection / Insertion</span>
+          <span class="topic-chip">Merge Sort (concept)</span>
+          <span class="topic-chip">Array manipulation</span>
+          <span class="topic-chip">Prefix sums</span>
+          <span class="topic-chip">Subarray basics</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">20</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">25</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:70%"></div><div class="d-med" style="width:30%"></div></div>
+          <div class="diff-legend"><span class="dl e">70% Easy</span><span class="dl m">30% Med</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 4 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">04</span>
+        <span class="week-badge badge-dsa">DSA</span>
+      </div>
+      <div class="week-content">
+        <h4>Hashing + Strings</h4>
+        <div class="week-topics">
+          <span class="topic-chip">HashMap / HashSet</span>
+          <span class="topic-chip">Frequency counting</span>
+          <span class="topic-chip">Anagrams</span>
+          <span class="topic-chip">String manipulation</span>
+          <span class="topic-chip">Palindromes</span>
+          <span class="topic-chip">Two-pointer intro</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">20</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">25</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:65%"></div><div class="d-med" style="width:35%"></div></div>
+          <div class="diff-legend"><span class="dl e">65% Easy</span><span class="dl m">35% Med</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 5 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">05</span>
+        <span class="week-badge badge-dsa">DSA</span>
+      </div>
+      <div class="week-content">
+        <h4>Two Pointers + Sliding Window</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Classic two-pointer patterns</span>
+          <span class="topic-chip">Fixed window</span>
+          <span class="topic-chip">Variable window</span>
+          <span class="topic-chip">Max/min subarray</span>
+          <span class="topic-chip">Binary search revisited</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">20</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">25</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:55%"></div><div class="d-med" style="width:40%"></div><div class="d-hard" style="width:5%"></div></div>
+          <div class="diff-legend"><span class="dl e">55% Easy</span><span class="dl m">40% Med</span><span class="dl h">5% Hard</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 6 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">06</span>
+        <span class="week-badge badge-dsa">DSA</span>
+      </div>
+      <div class="week-content">
+        <h4>Stack + Queue</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Stack operations</span>
+          <span class="topic-chip">Monotonic stack</span>
+          <span class="topic-chip">Queue / Deque</span>
+          <span class="topic-chip">Valid parentheses</span>
+          <span class="topic-chip">Next greater element</span>
+          <span class="topic-chip">Sliding window max</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">20</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">25</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:50%"></div><div class="d-med" style="width:42%"></div><div class="d-hard" style="width:8%"></div></div>
+          <div class="diff-legend"><span class="dl e">50% Easy</span><span class="dl m">42% Med</span><span class="dl h">8% Hard</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 7 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">07</span>
+        <span class="week-badge badge-adv">TREES</span>
+      </div>
+      <div class="week-content">
+        <h4>Trees + Recursion</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Binary Tree basics</span>
+          <span class="topic-chip">Inorder/Preorder/Postorder</span>
+          <span class="topic-chip">BFS / DFS on trees</span>
+          <span class="topic-chip">BST operations</span>
+          <span class="topic-chip">Recursion pattern</span>
+          <span class="topic-chip">Tree height / depth</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">18</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">22</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:45%"></div><div class="d-med" style="width:45%"></div><div class="d-hard" style="width:10%"></div></div>
+          <div class="diff-legend"><span class="dl e">45% Easy</span><span class="dl m">45% Med</span><span class="dl h">10% Hard</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Week 8 -->
+    <div class="week-row">
+      <div class="week-num">
+        <span class="wn">WEEK</span>
+        <span class="wd">08</span>
+        <span class="week-badge badge-adv">FINAL</span>
+      </div>
+      <div class="week-content">
+        <h4>Review Sprint + Backtracking (optional)</h4>
+        <div class="week-topics">
+          <span class="topic-chip">Mixed revision problems</span>
+          <span class="topic-chip">Contest simulation</span>
+          <span class="topic-chip">Backtracking intro (opt.)</span>
+          <span class="topic-chip">Subsets / Permutations (opt.)</span>
+          <span class="topic-chip">Weak-area catch-up</span>
+        </div>
+      </div>
+      <div class="week-targets">
+        <h4>Weekly Targets</h4>
+        <div class="target-line"><span class="tl-num tl-green">20</span><span>problems (floor)</span></div>
+        <div class="target-line"><span class="tl-num tl-blue">25</span><span>problems (target)</span></div>
+        <div class="diff-bar-wrap">
+          <div class="diff-bar"><div class="d-easy" style="width:35%"></div><div class="d-med" style="width:50%"></div><div class="d-hard" style="width:15%"></div></div>
+          <div class="diff-legend"><span class="dl e">35% Easy</span><span class="dl m">50% Med</span><span class="dl h">15% Hard</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.3rem;flex:1;min-width:180px;">
+      <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Total (Floor)</div>
+      <div style="font-size:1.4rem;font-weight:800;font-family:var(--mono);color:var(--accent);">~151 Qs</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.3rem;flex:1;min-width:180px;">
+      <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Total (Target)</div>
+      <div style="font-size:1.4rem;font-weight:800;font-family:var(--mono);color:var(--accent2);">~189 Qs</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.3rem;flex:2;min-width:240px;">
+      <div style="font-family:var(--mono);font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">Platform Recommendation</div>
+      <div style="font-size:0.83rem;color:var(--text);">LeetCode (primary) · Codeforces (contests) · GFG (concept reference) · NeetCode150 (optional curation)</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WEEKLY RHYTHM -->
+<section>
+  <div class="section-tag">03 / Rhythm</div>
+  <h2>Weekly <span>Day Structure</span></h2>
+  <div class="rhythm">
+    <div class="day-cell">
+      <div class="dc-name">Mon</div>
+      <div class="dc-activity dc-green">New topic drop + 4–5 warm-up Qs</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Tue</div>
+      <div class="dc-activity dc-blue">Self-study + 4–5 practice Qs</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Wed</div>
+      <div class="dc-activity dc-blue">Self-study + doubt session (async)</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Thu</div>
+      <div class="dc-activity dc-blue">Self-study + 4–5 harder Qs</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Fri</div>
+      <div class="dc-activity dc-yellow">Weekly mini-contest / mock test (1–2 hrs)</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Sat</div>
+      <div class="dc-activity dc-yellow">Review + catch-up + leaderboard update</div>
+    </div>
+    <div class="day-cell">
+      <div class="dc-name">Sun</div>
+      <div class="dc-activity dc-off">Rest / overflow</div>
+    </div>
+  </div>
+  <p style="font-size:0.78rem;color:var(--muted);">Monday topic drops are the heartbeat of the sprint. Every participant knows exactly what they're solving each week. Friday contests create a natural deadline pressure and healthy competition.</p>
+</section>
+
+<hr class="divider">
+
+<!-- ONBOARDING -->
+<section id="onboarding">
+  <div class="section-tag">04 / Onboarding</div>
+  <h2>Participant <span>Qualification</span></h2>
+
+  <div class="onboard-steps">
+    <div class="os">
+      <span class="os-num">STEP 01</span>
+      <h4>Interest Form</h4>
+      <p>Name, year, branch, prior coding experience, platform handles (LC/CF/GFG), availability confirmation (20 hrs/week).</p>
+    </div>
+    <div class="os">
+      <span class="os-num">STEP 02</span>
+      <h4>Screening Test</h4>
+      <p>30-min timed mini-test: 5 basic problems. Not a filter for skill — a filter for serious intent and baseline check.</p>
+    </div>
+    <div class="os">
+      <span class="os-num">STEP 03</span>
+      <h4>Orientation Call</h4>
+      <p>15-min group walkthrough of expectations, commitment, roadmap, tools, and mentor pod assignment.</p>
+    </div>
+    <div class="os">
+      <span class="os-num">STEP 04</span>
+      <h4>Pod Assignment</h4>
+      <p>Assigned to a mentor pod of 8–10 participants. Mentor is an advanced student or returning member.</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem;">Qualification Criteria</h3>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+    <table class="criteria-table">
+      <thead>
+        <tr><th>Criterion</th><th>Accepted</th><th>Not Accepted</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="label">Experience Level</span></td>
+          <td><span class="pass">✓ PASS</span><br><span class="desc">Complete beginners, students with some basics, even those with 0 LC problems</span></td>
+          <td><span class="fail">✗ REDIRECT</span><br><span class="desc">300+ LC problems already solved — better served as mentor</span></td>
+        </tr>
+        <tr>
+          <td><span class="label">Time Commitment</span></td>
+          <td><span class="pass">✓ REQUIRED</span><br><span class="desc">Can genuinely commit ~20 hrs/week for 8 weeks during summer</span></td>
+          <td><span class="fail">✗ DECLINE</span><br><span class="desc">Exam season conflicts, internship clashes, cannot commit</span></td>
+        </tr>
+        <tr>
+          <td><span class="label">Language</span></td>
+          <td><span class="pass">✓ ANY</span><br><span class="desc">C++, Python, Java — participant's choice; council provides resources for all</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="label">Year / Branch</span></td>
+          <td><span class="pass">✓ OPEN</span><br><span class="desc">All years, all branches. CS/IT may progress faster — that's okay.</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><span class="label">Advanced Students</span></td>
+          <td><span class="pass">✓ AS MENTORS</span><br><span class="desc">Welcome as pod mentors or fast-trackers. Not the program's optimization target.</span></td>
+          <td><span class="fail">✗ DISCOURAGE</span><br><span class="desc">Advanced students expecting a challenging track will be disappointed by W1–W2</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- OPS MODEL -->
+<section id="ops">
+  <div class="section-tag">05 / Operations</div>
+  <h2>Operational <span>Infrastructure</span></h2>
+  <div class="ops-grid">
+    <div class="ops-card">
+      <h3>📣 Communication</h3>
+      <ul>
+        <li>Primary channel: WhatsApp or Discord server with #general, #doubts, #topic-week-N, #leaderboard, #memes</li>
+        <li>Doubt threads stay in #doubts — mentors respond within 24 hours on weekdays</li>
+        <li>Weekly topic drop pinned every Monday morning with a 1-page PDF guide + problem list</li>
+        <li>No cold DM culture — all questions public for collective benefit</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>📊 Progress Tracking</h3>
+      <ul>
+        <li>Google Sheet shared tracker: each participant self-logs problems solved daily</li>
+        <li>Honor system — enforced by Friday mini-contest performance cross-check</li>
+        <li>Pod mentor reviews their 8–10 students weekly and flags inactivity</li>
+        <li>Automated leaderboard update every Saturday (from tracker or LC API if feasible)</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>🏆 Weekly Contest</h3>
+      <ul>
+        <li>Every Friday, 60–90 min timed contest (Codeforces div-4 style or custom)</li>
+        <li>3–4 problems from the week's topic — auto-graded where possible</li>
+        <li>Score contributes to leaderboard (20% weight) alongside total problems solved</li>
+        <li>Week 8: Final Grand Contest — cross-pod, longer format, with prizes</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>🔔 Check-ins</h3>
+      <ul>
+        <li>Each pod: 30-min weekly sync (async voice note acceptable for offline students)</li>
+        <li>Mentor fills a 5-field pod report: attendance, avg progress, blockers, standout, at-risk</li>
+        <li>Council runs one all-hands recap call mid-sprint (Week 4) and end-sprint (Week 8)</li>
+        <li>At-risk flag triggers a 1:1 DM from mentor, not a public callout</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>📚 Resources</h3>
+      <ul>
+        <li>Curated weekly PDF: topic summary (1 page), concept cheatsheet, 20–25 tagged problems</li>
+        <li>Problem list tagged: must-do / optional / bonus (hard)</li>
+        <li>No prescribed video lectures — but 2–3 vetted YouTube links per topic provided</li>
+        <li>Solutions posted Sunday evening for all must-do problems (no peeking before Friday)</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>⚠️ Drop &amp; Strike Policy</h3>
+      <ul>
+        <li>Miss 1 week with no communication → mentor yellow-flag</li>
+        <li>Miss 2 consecutive weeks → removed from active leaderboard, certificate revoked</li>
+        <li>Re-entry allowed once per sprint with mentor approval</li>
+        <li>No shame, but slots are limited — inactive spots can be opened to waitlist</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MENTOR PODS -->
+<section>
+  <div class="section-tag">06 / Mentor Pods</div>
+  <h2>Pod <span>Structure</span></h2>
+  <div class="pods">
+    <div class="pod p1">
+      <h3>Pod Composition</h3>
+      <p class="pod-meta">8–10 beginners · 1 mentor</p>
+      <ul>
+        <li>Mentor is an advanced student (100+ LC) or returning Coding Council member</li>
+        <li>Ideally same branch/year group for scheduling ease</li>
+        <li>Pods are fixed for the sprint — no reshuffling unless escalated</li>
+        <li>Pod names optional but fun (Pod Alpha, Pod Zeta, etc.)</li>
+      </ul>
+    </div>
+    <div class="pod p2">
+      <h3>Mentor Responsibilities</h3>
+      <p class="pod-meta">~3–5 hrs/week commitment</p>
+      <ul>
+        <li>Respond to doubt questions within 24 hours on weekdays</li>
+        <li>Weekly 30-min pod sync (can be async)</li>
+        <li>Flag at-risk participants to council leads</li>
+        <li>Weekly 5-field pod report (5 min effort)</li>
+        <li>Optional: host a 1-hr explanation session on the week's hardest concept</li>
+      </ul>
+    </div>
+    <div class="pod p3">
+      <h3>Mentor Incentives</h3>
+      <p class="pod-meta">Why mentors should want to do this</p>
+      <ul>
+        <li>Certificate of Mentorship from Coding Council</li>
+        <li>Teaching is one of the best ways to solidify your own DSA knowledge</li>
+        <li>Priority in future council leadership / event roles</li>
+        <li>Resume line item — "Pod Mentor, CC DSA Sprint @ JMI" is real experience</li>
+        <li>Peer recognition and social standing during the sprint</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LEADERBOARD -->
+<section id="leaderboard">
+  <div class="section-tag">07 / Leaderboard</div>
+  <h2>Scoring <span>Model</span></h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.3rem;">
+      <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;">Score Components</h3>
+      <div style="display:flex;flex-direction:column;gap:0.7rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;">Problems Solved</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent);font-weight:700;">50%</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;">Difficulty Weighting</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent2);font-weight:700;">20%</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;">Weekly Contest Score</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent4);font-weight:700;">20%</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;">Consistency Streak</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent3);font-weight:700;">10%</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.3rem;">
+      <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:1rem;">Difficulty Points</h3>
+      <div style="display:flex;flex-direction:column;gap:0.7rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;color:var(--accent);">Easy Problem</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--text);font-weight:700;">1 pt</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;color:var(--accent2);">Medium Problem</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--text);font-weight:700;">2 pts</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;color:var(--accent3);">Hard Problem</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--text);font-weight:700;">3 pts</span>
+        </div>
+        <div style="height:1px;background:var(--border)"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:0.82rem;color:var(--accent4);">Contest Problem</span>
+          <span style="font-family:var(--mono);font-size:0.8rem;color:var(--text);font-weight:700;">1.5× multiplier</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lb-card">
+    <div class="lb-header">
+      <h3>🏆 Sample Leaderboard — Week 4</h3>
+      <span>LIVE · Updated Saturdays</span>
+    </div>
+    <div class="lb-cols">
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">#</div>
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;">Name</div>
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;text-align:right;">Solved</div>
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;text-align:right;">Contest</div>
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;text-align:right;">Streak</div>
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;text-align:right;">Score</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank gold">01</div>
+      <div class="lb-name">Aisha R.</div>
+      <div class="lb-val">87</div>
+      <div class="lb-val">4/4</div>
+      <div class="lb-streak">🔥 28d</div>
+      <div class="lb-score">1,240</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank silver">02</div>
+      <div class="lb-name">Zaid K.</div>
+      <div class="lb-val">82</div>
+      <div class="lb-val">3/4</div>
+      <div class="lb-streak">🔥 21d</div>
+      <div class="lb-score">1,158</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank bronze">03</div>
+      <div class="lb-name">Noor F.</div>
+      <div class="lb-val">79</div>
+      <div class="lb-val">4/4</div>
+      <div class="lb-streak">🔥 18d</div>
+      <div class="lb-score">1,092</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank">04</div>
+      <div class="lb-name">Aryan S.</div>
+      <div class="lb-val">74</div>
+      <div class="lb-val">3/4</div>
+      <div class="lb-streak">⚡ 14d</div>
+      <div class="lb-score">1,020</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank">05</div>
+      <div class="lb-name">Tasneem A.</div>
+      <div class="lb-val">68</div>
+      <div class="lb-val">2/4</div>
+      <div class="lb-streak">⚡ 10d</div>
+      <div class="lb-score">940</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="section-tag">08 / Recognition</div>
+  <h2>Certificate <span>Tiers</span></h2>
+  <div class="cert-tiers">
+    <div class="cert">
+      <div class="cert-icon">🥉</div>
+      <h3>Participant</h3>
+      <p>Completed the sprint with consistent participation and met the minimum problem floor each week.</p>
+      <div class="req">≥ 120 problems + 6/8 weeks active</div>
+    </div>
+    <div class="cert">
+      <div class="cert-icon">🥈</div>
+      <h3>Achiever</h3>
+      <p>Hit weekly targets consistently, maintained a streak, and cleared the final contest.</p>
+      <div class="req">≥ 160 problems + 7/8 weeks + contest</div>
+    </div>
+    <div class="cert">
+      <div class="cert-icon">🥇</div>
+      <h3>Sprint Champion</h3>
+      <p>Top 10% of leaderboard, exemplary consistency, and outstanding contest performance.</p>
+      <div class="req">Top 10% score + 8/8 weeks full</div>
+    </div>
+    <div class="cert">
+      <div class="cert-icon">🌟</div>
+      <h3>Mentor Certificate</h3>
+      <p>Awarded to pod mentors who completed all weekly reports and maintained pod engagement throughout.</p>
+      <div class="req">All 8 pod reports + 90% pod retention</div>
+    </div>
+  </div>
+  <p style="margin-top:1.2rem;font-size:0.78rem;color:var(--muted);">All certificates issued digitally under Coding Council @ JMI letterhead with participant's name, tier, problems solved, and sprint dates. Shareable on LinkedIn.</p>
+</section>
+
+<hr class="divider">
+
+<!-- OPEN QUESTIONS -->
+<section>
+  <div class="section-tag">09 / Pending Decisions</div>
+  <h2>Still to <span>Finalize</span></h2>
+  <div class="ops-grid">
+    <div class="ops-card">
+      <h3>🔢 Cohort Size</h3>
+      <ul>
+        <li>Recommended: 30–60 participants (3–6 pods of 10) for first run</li>
+        <li>Too small: leaderboard loses energy; too large: mentor quality drops</li>
+        <li>Hard cap at 80 without additional council bandwidth</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>📅 Sprint Dates</h3>
+      <ul>
+        <li>Confirm JMI summer calendar for exam-free 8-week window</li>
+        <li>Avoid first 2 weeks of summer (people still settling) and last week (pre-term prep)</li>
+        <li>Monday start strongly preferred for weekly rhythm</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>🛠 Tooling</h3>
+      <ul>
+        <li>Tracker: Google Sheets vs Notion vs custom (start with Sheets)</li>
+        <li>Contests: Codeforces mashup, LeetCode weekly, or self-hosted on HackerRank</li>
+        <li>Communication: WhatsApp (low friction) vs Discord (better threading)</li>
+      </ul>
+    </div>
+    <div class="ops-card">
+      <h3>🎁 Prizes</h3>
+      <ul>
+        <li>Sprint Champions: council merch, public recognition, priority at future events</li>
+        <li>Weekly winner: small callout + leaderboard badge</li>
+        <li>Budget depends on council funds — even zero-budget works with recognition alone</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Coding Council @ Jamia Millia Islamia · Summer DSA Sprint · Program Design Document · v1.0<br>
+  Built with <a href="#">Claude</a> · Internal planning document — not for public distribution
+</footer>
+
+</body>
+</html>
